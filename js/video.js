@@ -22,8 +22,8 @@ document.querySelector("#play").addEventListener("click", function() {
 	console.log("Play Video");
 	video.play();
 
-	// update the volume info - need to round to whole number
-	document.querySelector("#volume").innerHTML = Math.round(video.volume * 100) + "%";
+	// update the volume info
+	document.querySelector("#volume").innerHTML = video.volume * 100 + "%";
 });
 
 // Pause button
@@ -35,24 +35,24 @@ document.querySelector("#pause").addEventListener("click", function() {
 // slow down button
 document.querySelector("#slower").addEventListener("click", function() {
 	// Slow down by 10%
-	video.playbackRate -= (video.playbackRate * 0.1);
+	video.playbackRate *= 0.9;
 	console.log("Speed is " + video.playbackRate);
 });
 
 // speed up button
 document.querySelector("#faster").addEventListener("click", function() {
-	// Speed up by 10% (add 10% of current speed)
-	video.playbackRate += (video.playbackRate * 0.1);
+	// Speed up by dividing by 0.9 (inverse of slowing down)
+	video.playbackRate /= 0.9;
 	console.log("Speed is " + video.playbackRate);
 });
 
 // skip ahead button
 document.querySelector("#skip").addEventListener("click", function() {
 	// Skip ahead 10 seconds
-	if (video.currentTime + 10 < video.duration) {
-		video.currentTime += 10;
-	} else {
-		// If we would exceed duration, restart from beginning
+	video.currentTime += 10;
+	
+	// If we've exceeded the duration, go back to start
+	if (video.currentTime >= video.duration) {
 		video.currentTime = 0;
 	}
 	
@@ -77,8 +77,8 @@ document.querySelector("#slider").addEventListener("input", function() {
 	// Update video volume (slider is 0-100, volume is 0-1)
 	video.volume = this.value / 100;
 
-	// Update the volume display - round to whole number
-	document.querySelector("#volume").innerHTML = Math.round(video.volume * 100) + "%";
+	// Update the volume display
+	document.querySelector("#volume").innerHTML = video.volume * 100 + "%";
 });
 
 // styled old school
